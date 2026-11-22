@@ -1,83 +1,302 @@
-# ApplyPilot AI — Milestone 1 MVP
+# ApplyPilot AI
+### AI-Powered Resume Intelligence & Job Matching Platform
 
-## Run it
-```bash
-# Backend (http://localhost:8000, docs at /docs)
-cd backend && python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp ../.env.example .env
-uvicorn app.main:app --reload
+ApplyPilot is an AI-powered job discovery and career assistance platform designed to help job seekers analyze their resumes, discover relevant opportunities, understand their job compatibility, and organize their application journey in one place.
 
-# Frontend (http://localhost:5173)
-cd frontend && npm install && npm run dev
+Built with a modern web stack, intelligent resume processing, job-matching algorithms, and an immersive 3D interface.
 
-# Tests
-cd backend && pytest -q
+---
+
+## Features
+
+### Resume Intelligence
+- Upload resumes in PDF and DOCX format.
+- Extract resume text and automatically populate profile information.
+- Analyze resumes using structured scoring criteria.
+- Identify resume weaknesses and provide actionable recommendations.
+- Generate before-and-after improvement examples.
+- Review ATS readability and resume structure.
+
+### Smart Job Matching
+- Discover job opportunities based on preferred roles and skills.
+- Calculate job compatibility scores.
+- Identify matching skills and missing requirements.
+- Explain why a job matches your profile.
+- Filter and explore opportunities based on relevance.
+
+### Job Discovery
+Designed with a provider-based job discovery architecture.
+
+Supported and planned integrations include:
+- Remotive
+- Adzuna
+- Greenhouse
+- Lever
+- External job search platforms
+
+Job-source availability depends on API access, configuration, and provider restrictions.
+
+### Application Tracking
+Organize your job search through an application tracking system.
+
+- Track application progress.
+- Manage application statuses.
+- Search and filter applications.
+- Export application data to CSV.
+- Maintain an application activity history.
+
+### AI Career Assistant
+An interactive career assistant designed to help with:
+- Resume reviews
+- Job-match explanations
+- Skill-gap analysis
+- Job discovery
+- Application tracking
+- Career-related questions
+
+### Immersive 3D Interface
+ApplyPilot features an experimental 3D-inspired interface designed to make job discovery feel more interactive.
+
+- Animated neural-brain visualization
+- Particle-based backgrounds
+- Floating job elements
+- Interactive depth effects
+- Motion-based transitions
+- Responsive glass-style interface
+- Reduced-motion support
+
+---
+
+## Tech Stack
+
+### Frontend
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Three.js / 3D visual components
+
+### Backend
+- Python
+- FastAPI
+- SQLAlchemy
+- Pydantic
+
+### AI
+- Groq API integration
+- LLM-powered resume analysis
+- AI-assisted career recommendations
+
+### Database
+- SQLite
+- PostgreSQL support through database configuration
+
+### Infrastructure
+- Git & GitHub
+- Docker
+- Render deployment configuration
+
+---
+
+## Architecture
+
+```text
+ApplyPilot
+│
+├── frontend/
+│   ├── React + TypeScript
+│   ├── Interactive dashboard
+│   ├── Resume analysis UI
+│   ├── Job discovery
+│   └── 3D visual components
+│
+├── backend/
+│   ├── FastAPI
+│   ├── Resume processing
+│   ├── Job discovery providers
+│   ├── Job matching & scoring
+│   ├── AI integration
+│   └── Application tracking
+│
+├── Dockerfile
+├── render.yaml
+└── README.md
 ```
 
-## What works (tested)
-- PDF/DOCX upload with extension, magic-byte and size checks; text extraction; profile auto-fill and editing
-- Rule-based resume score (6 transparent checks), issues, recommendations, before/after examples, stated limitations
-- 10 **demo** jobs behind a provider-adapter interface (`backend/app/jobs.py`), deduplication, filters, per-job match score with reasons and gaps
-- Application tracker: 12 statuses, one record per job (duplicates rejected), search/filter, CSV export (formula-injection safe), audit log
-- Rule-based chat assistant that calls backend functions (jobs, match explanation, resume review, applications, skills gaps)
-- Resume delete and full account-data delete
+---
 
-## What does NOT exist yet
-- **No real job sources** (LinkedIn, Indeed, Internshala, Naukri need official APIs/partner access). Milestone 2.
-- **No LLM**: analysis and chat are rule-based. `.env` LLM settings are placeholders.
-- **No application submission or automation.** "Submitted and confirmed" is user-reported only; demo jobs cannot be marked submitted.
-- No tailored resumes/cover letters (M3), no authentication (single local user), no Redis/queue, no migrations (tables auto-created; Alembic arrives with Postgres in M5). Scanned PDFs (OCR) unsupported.
-- SQLite by default; PostgreSQL is supported via `DATABASE_URL` but untested.
+## Getting Started
 
-## Update: AI analysis and prepare-applications
-- Put `LLM_API_KEY=your_key` in `backend/.env` and restart the backend. Resume analysis and cover letters then use the AI model (`LLM_MODEL` optional). Without a key, the rule-based score and a template letter are used.
-- The AI path is tested only with mocked model responses, not against the live API.
-- "Prepare applications" drafts cover letters and tracks matching jobs. It never submits. Automatic submission to LinkedIn/Indeed/Naukri is deliberately not built.
+### Prerequisites
 
-## Update: real jobs
-- Free Adzuna key (developer.adzuna.com) goes in `backend/.env` as `ADZUNA_APP_ID` / `ADZUNA_APP_KEY`. Remotive needs no key.
-- "Find real jobs for my resume" searches by your preferred roles (or top skills), dedupes, scores each job, and replaces untracked demo jobs.
-- Provider code is tested with mocked responses only. It has NOT been run against the live Adzuna/Remotive APIs.
+- Python 3.11+
+- Node.js and npm
+- Git
 
-## Update: v0.2 (login, stricter matching, hosting)
-- **Scoring:** irrelevant jobs capped at 30%, senior roles capped for low experience, region-locked remote jobs capped at 55%.
-- **Warnings:** commission-only, per-task pay, country restrictions, freelance. Listings that ask for payment are skipped at discovery. Listings older than 45 days are skipped.
-- **Extra sources (untested live):** Greenhouse and Lever public boards via `GREENHOUSE_BOARDS` / `LEVER_COMPANIES`.
-- **Hosting:** `APP_PASSWORD` turns on a single-owner login (not multi-user accounts). `Dockerfile` + `render.yaml` are provided but have NOT been deployed or tested on Render or against PostgreSQL.
-- Push the folder to a private GitHub repo, then in Render choose New > Blueprint, and set APP_PASSWORD. Your CV is stored in the hosted database, so use a strong password.
+### 1. Clone the repository
 
-## Update: v0.5 (whole site in a 3D world)
-- A full-screen WebGL world sits behind every page: one wireframe object per page on a ring. Changing page flies the camera to that page's object. Each page is a glass slab floating in that world: it tilts with the pointer, flips in on navigation and its cards sit on a depth layer. The sidebar is a floating angled dock. The **3D effects** switch restores the plain layout.
-- Built and type-checked, NOT viewed in a browser by the author.
+```bash
+git clone https://github.com/Gowthamkumar09/ApplyPilot.git
+cd ApplyPilot
+```
 
-## Update: v0.4 (pro 3D pass)
-- **Pipeline in 3D** (Overview): your six pipeline numbers as growing 3D columns. **Match map** (Jobs): every job as a planet, closer to the core = better match, hover for details, click to filter. **Skills sphere** (Profile): your skills on a rotating CSS-3D sphere. Cursor glare on tilt cards. A **3D effects** switch (sidebar) turns all WebGL/3D off and is remembered.
-- Built and type-checked, NOT viewed in a browser by the author.
+### 2. Backend Setup
 
-## Update: v0.3 (3D interface)
-- WebGL globe with animated flight arcs on the login and overview screens (three.js, loaded on demand; falls back to a plain background if WebGL is unavailable). Pointer-tilt cards, 3D page transitions, rotating logo cube, floating gauges. All motion is disabled when the OS "reduce motion" setting is on.
-- The 3D visuals were type-checked and built but NOT viewed in a browser by the author. Report anything that looks off.
-- "Search on other platforms" links open LinkedIn, Naukri, Indeed, Internshala and Google Jobs searches in a new tab. These are plain links (no scraping or automation); the sites can change their URL formats.
+```bash
+cd backend
+python -m venv .venv
+```
 
-## Update: v0.6 (dark redesign)
-- New dark violet/cyan theme across every page (Tailwind palette in `frontend/tailwind.config.js`, plus `index.css`).
-- Background is now a particle sphere of triangles (`World.tsx`, plain canvas, no WebGL): it turns and slides when you change page, and a few glowing points drift toward the core like your best matches.
-- Jobs page: list rewritten as a single panel of rows (title, New badge, company/location/posted, salary and work-type pills, match gauge, Shortlist and View listing). A knowledge-universe style summary (total, strong, fair, weak, average match) sits above the match map.
-- No "Apply All" button was added, on purpose: ApplyPilot still never submits applications.
-- Edited without installing dependencies, so NOT type-checked, built or viewed in a browser. Run `cd frontend && npm install && npm run build` first. The old `frontend/dist` was removed because it was stale.
+Activate the environment.
 
-## Update: v0.7.2 (sphere hero with floating jobs; sphere was hidden behind the page background, now visible)
-- Home is now a hero: headline on the left, a denser Dala-style particle sphere on the right with your 12 best-matching job names floating on it and turning with it. Other pages float over the sphere on a lighter glass panel.
-- `start.bat` now rebuilds the frontend on every start. If the page looks unchanged, delete `frontend\dist` and run `npm run build` (the old build is served until you do).
-- Still NOT type-checked or viewed in a browser by the author.
+**Windows:**
 
-## Update: v0.8 (two background scenes)
-- Home: a large Dala-style sphere (2,200 colour triangles, outlined and filled) on the right, with your best job names floating on it.
-- Every other page: a Vexel-style dome of glowing cyan dashes in concentric rings with a scalloped lower edge and a slow light wave. The two scenes cross-fade when you change page. With "reduce motion" on, both are static.
-- The dome was rendered and checked in a headless browser; the full app was still not run by the author. Build with `npm run build`.
+```cmd
+.venv\Scripts\activate
+```
 
-## Update: v0.9 (brain instead of sphere)
-- Home background is now a brain made of about 4,000 tiny triangles (`frontend/src/brain.ts`): two hemispheres with a centre groove and folded surface, temporal lobes, an amber cerebellum and a brain stem. It sways gently and follows the pointer instead of spinning fully, so it always reads as a brain. A few glowing nodes and faint links with travelling light pulses stand for neurons firing. Job names float around it.
-- The brain shape was rendered and checked in a headless browser; the full app was still not run by the author. Build with `npm run build`.
-"# ApplyPilot" 
+**Linux/macOS:**
+
+```bash
+source .venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Configure environment variables:
+
+Copy `../.env.example` into `backend/.env` and configure the required values.
+
+Start the backend:
+
+```bash
+python -m uvicorn app.main:app --reload
+```
+
+Backend API:
+
+```text
+http://localhost:8000
+```
+
+API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+### 3. Frontend Setup
+
+Open another terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+---
+
+## Configuration
+
+ApplyPilot supports environment-based configuration.
+
+Depending on the enabled features, configuration may include:
+
+| Variable | Purpose |
+|---|---|
+| `LLM_API_KEY` | AI provider API key |
+| `LLM_MODEL` | Model configuration |
+| `ADZUNA_APP_ID` | Adzuna application ID |
+| `ADZUNA_APP_KEY` | Adzuna application key |
+| `APP_PASSWORD` | Optional single-user application password |
+| `DATABASE_URL` | Database connection configuration |
+
+Refer to `.env.example` for available settings.
+
+Never commit real API keys, credentials, or `.env` files.
+
+---
+
+## Testing
+
+Run backend tests:
+
+```bash
+cd backend
+pytest -q
+```
+
+Build the frontend:
+
+```bash
+cd frontend
+npm run build
+```
+
+Some external integrations have only been tested with mocked responses and may require live API verification.
+
+---
+
+## Privacy & Limitations
+
+- ApplyPilot is currently designed as a single-user application.
+- Resume files contain personal information and should be handled carefully.
+- AI-generated results may be inaccurate and should be reviewed.
+- Job availability and matching scores are not guarantees of employment.
+- External job providers may have API restrictions or availability limitations.
+- ApplyPilot does not automatically submit job applications.
+- Application submission statuses are not independently verified.
+- OCR for scanned resumes is not currently supported.
+
+---
+
+## Roadmap
+
+- [ ] Reliable real-time job discovery
+- [ ] Improved AI resume optimization
+- [ ] Advanced job compatibility scoring
+- [ ] Personalized skill-gap learning plans
+- [ ] AI-generated tailored resumes
+- [ ] AI-generated cover letters
+- [ ] Improved application analytics
+- [ ] Multi-user authentication
+- [ ] PostgreSQL production deployment
+- [ ] More job provider integrations
+- [ ] Improved deployment reliability
+
+---
+
+## Vision
+
+ApplyPilot aims to transform job searching from a repetitive process into an intelligent, personalized workflow.
+
+The goal is not just to find jobs, but to help people understand where they fit, what they are missing, how they can improve, and which opportunities deserve their attention.
+
+**Find opportunities. Understand your potential. Apply smarter.**
+
+---
+
+## Developer
+
+**Gowtham Kumar**
+
+AI & Machine Learning Engineering Student | Building AI-powered applications
+
+GitHub: [@Gowthamkumar09](https://github.com/Gowthamkumar09)
+
+---
+
+## License
+
+License not yet specified.
