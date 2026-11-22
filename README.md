@@ -2,7 +2,7 @@
 ### AI-Powered Resume Intelligence & Job Matching Platform
 
 <div align="center">
-  <img src="applypilot-Home.png" width="100%" alt="ApplyPilot AI Home Screen" />
+  <img src="Docs/Home.png" width="100%" alt="ApplyPilot AI Home Screen" />
 </div>
 
 ApplyPilot is an AI-powered job discovery and career assistance platform...
