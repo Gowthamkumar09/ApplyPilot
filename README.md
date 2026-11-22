@@ -80,3 +80,4 @@ cd backend && pytest -q
 ## Update: v0.9 (brain instead of sphere)
 - Home background is now a brain made of about 4,000 tiny triangles (`frontend/src/brain.ts`): two hemispheres with a centre groove and folded surface, temporal lobes, an amber cerebellum and a brain stem. It sways gently and follows the pointer instead of spinning fully, so it always reads as a brain. A few glowing nodes and faint links with travelling light pulses stand for neurons firing. Job names float around it.
 - The brain shape was rendered and checked in a headless browser; the full app was still not run by the author. Build with `npm run build`.
+"# ApplyPilot" 
