@@ -1,12 +1,11 @@
-# ApplyPilot AI
+# ApplyPilot AI 🚀
 ### AI-Powered Resume Intelligence & Job Matching Platform
 
-ApplyPilot is an AI-powered job discovery and career assistance platform designed to help job seekers analyze their resumes, discover relevant opportunities, understand their job compatibility, and organize their application journey in one place.
+<div align="center">
+  <img src="applypilot-home.png" width="100%" alt="ApplyPilot AI Home Screen" />
+</div>
 
-Built with a modern web stack, intelligent resume processing, job-matching algorithms, and an immersive 3D interface.
-
----
-
+ApplyPilot is an AI-powered job discovery and career assistance platform...
 ## Features
 
 ### Resume Intelligence
