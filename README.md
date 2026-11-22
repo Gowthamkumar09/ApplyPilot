@@ -99,13 +99,13 @@ ApplyPilot features an experimental 3D-inspired interface designed to make job d
 ---
 
 ## Run it
-# Backend (http://localhost:8000, docs at /docs)
+Backend (http://localhost:8000, docs at /docs)
 cd backend && python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp ../.env.example .env
 uvicorn app.main:app --reload
 
-# Frontend (http://localhost:5173)
+Frontend (http://localhost:5173)
 cd frontend && npm install && npm run dev
 
 # Tests
